@@ -77,9 +77,9 @@ pub fn generate_hooks<P: AsRef<Path>, P2: AsRef<Path>, P3: AsRef<Path>>(
                         .expect("Should always have type"),
                 ).expect("write error");
             }
-        }
 
-        str.push('}');
+            str.push('}');
+        }
 
         match to_path {
             Some(p) => {

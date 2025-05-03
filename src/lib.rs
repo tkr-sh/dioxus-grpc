@@ -1,6 +1,6 @@
 use {
     convert_case::{Case, Casing},
-    std::{borrow::Cow, fmt::Write, path::Path},
+    std::{fmt::Write, path::Path},
     tonic_build::Config,
 };
 

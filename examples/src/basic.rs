@@ -2,10 +2,7 @@ mod hook;
 mod proto;
 
 #[cfg(feature = "clnt")]
-use {
-    dioxus::prelude::*,
-    hook::helloworld::{HelloRequest, use_greeter_service},
-};
+use dioxus::prelude::*;
 
 #[cfg(feature = "clnt")]
 fn main() {
@@ -14,6 +11,8 @@ fn main() {
 
 #[cfg(feature = "clnt")]
 fn app() -> Element {
+    use hook::{helloworld::use_greeter_service, messages::HelloRequest};
+
     let mut req = use_signal(|| {
         HelloRequest {
             name: String::new(),
@@ -37,7 +36,8 @@ fn app() -> Element {
 
 #[cfg(feature = "srv")]
 use {
-    proto::helloworld::{HelloReply, HelloRequest, greeter_server::Greeter},
+    proto::helloworld::greeter_server::Greeter,
+    proto::messages::{HelloReply, HelloRequest},
     tonic::{Request, Response, Status, transport::Server},
 };
 

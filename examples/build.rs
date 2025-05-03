@@ -33,6 +33,7 @@ fn main() -> Result<()> {
         &protos_to_compile,
         &["./proto/"],
         &Some("./src/hook"),
+        Some("crate::proto"),
         "http://127.0.0.1:50051",
     )?;
 

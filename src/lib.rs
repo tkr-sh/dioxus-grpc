@@ -22,7 +22,6 @@ pub fn generate_hooks<P: AsRef<Path>, P2: AsRef<Path>, P3: AsRef<Path>>(
             .as_ref()
             .map_or_else(|| "_", |string| string.as_str());
         let filename = format!("{pkg_name}.dx.rs");
-        let mut extern_proto_to_import = Vec::<String>::new();
 
         let mut str = format!(
             "

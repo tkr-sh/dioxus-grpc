@@ -1,6 +1,14 @@
 [package]
+    categories = ["api-bindings", "gui", "wasm", "web-programming"]
+    description = "Easy interface for a gRPC client with Dioxus "
+    documentation = "https://docs.rs/dioxus-grpc/latest/dioxus_grpc/index.html"
     edition = "2024"
+    exclude = ["/clippy.toml", "/examples", "/justfile", "/rustfmt.toml", "/taplo.toml"]
+    keywords = ["dioxus", "grpc", "wasm"]
+    license = "LGPL-3.0-or-later"
     name = "dioxus-grpc"
+    readme = "README.md"
+    repository = "https://github.com/tkr-sh/dioxus-grpc"
     version = "0.0.1"
 
 [dependencies]

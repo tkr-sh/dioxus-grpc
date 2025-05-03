@@ -1,10 +1,11 @@
 [package]
     edition = "2024"
-    name = "project"
+    name = "dioxus-grpc"
     version = "0.0.1"
 
 [dependencies]
-
+    convert_case = "0.8.0"
+    tonic-build = { version = "0.13", default-features = false, features = ["prost"] }
 
 # <https://rust-lang.github.io/rust-clippy/master>
 [lints.clippy]

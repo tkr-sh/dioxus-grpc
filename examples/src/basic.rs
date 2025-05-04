@@ -1,3 +1,4 @@
+#[cfg(feature = "clnt")]
 mod hook;
 mod proto;
 

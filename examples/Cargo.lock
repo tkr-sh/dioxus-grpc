@@ -1036,6 +1036,7 @@ dependencies = [
  "serde",
  "server_fn",
  "tracing",
+ "web-sys",
 ]
 
 [[package]]
@@ -1050,7 +1051,6 @@ dependencies = [
 name = "dioxus-grpc-examples"
 version = "0.0.1"
 dependencies = [
- "anyhow",
  "dioxus",
  "dioxus-grpc",
  "prost",

@@ -27,7 +27,7 @@ fn app() -> Element {
         }
         match &*greeter.say_hello(req).read() {
             Some(Ok(resp)) => rsx!{"[{resp.message}] - From server"},
-            Some(Err(err)) => rsx!{"Couldn't get the name {err:#?}"},
+            Some(Err(err)) => rsx!{"Couldn't get the name: {err:#?}"},
             None => rsx!{"..."},
         }
     }

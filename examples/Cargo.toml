@@ -4,12 +4,13 @@
     version = "0.0.1"
 
 [dependencies]
-    dioxus = { version = "0.6", features = ["web"] }
+anyhow = "1.0.98"
+    dioxus = { version = "0.6", features = ["mobile"] }
     prost = "0.13"
     tokio = { version = "1", optional = true, features = ["full"] }
     tonic = { version = "0.13", default-features = false, features = ["codegen", "prost"] }
     tonic-web = { version = "0.13" }
-    tonic-web-wasm-client = "0.7"
+    tonic-web-wasm-client = { version = "0.7", optional = true }
     tower-http = { version = "0.6", features = ["cors", "trace"], optional = true }
 
 [build-dependencies]
@@ -18,6 +19,14 @@
 
 [features]
     clnt = []
+    default = ["clnt", "mobile"]
+    mobile = [
+        "dep:tokio",
+        "tonic-build/transport",
+        "tonic/router",
+        "tonic/server",
+        "tonic/transport",
+    ]
     srv = [
         "dep:tokio",
         "dep:tower-http",

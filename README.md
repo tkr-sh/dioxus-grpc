@@ -46,22 +46,28 @@ _A complete example can be found here: [`./examples/`](https://github.com/tkr-sh
 
 ## How to use ?
 
-To use it, you will need to also use `tonic-build` and disable the `transport` feature. Therefore, something like:
+_By default, this is meant for `mobile` & `desktop`. But you can activate it for `web` with `feature = "web"`_
+
+To use it, you will need to also use `tonic-build` (and disable the `transport` feature in case of `feature = "web`). Therefore, something like:
 
 ```toml
 [build-dependencies]
     dioxus-grpc = "*"
-    tonic-build = { version = "0.13", default-features = false, features = ["prost"] }
+    tonic-build = "0.13"
+    # For web:
+    # tonic-build = { version = "0.13", default-features = false, features = ["prost"] } 
 ```
 
 But, you will also need to import some runtime dependencies:
 
 ```toml
 [dependencies]
-    dioxus = { version = "0.6", features = ["web"] }
-    tonic = { version = "0.13", default-features = false, features = ["codegen", "prost"] }
+    dioxus = { version = "0.6", features = ["mobile"] }
+    tonic = "0.13"
     prost = "0.13"
-    tonic-web-wasm-client = "0.7"
+    # For web:
+    # tonic = { version = "0.13", default-features = false, features = ["codegen", "prost"] }
+    # tonic-web-wasm-client = "0.7"
 ```
 
 Once this is done, you can call [`generate_hooks`]() in `./build.rs`. See the [examples](https://github.com/tkr-sh/dioxus-grpc/blob/main/examples) for more details.

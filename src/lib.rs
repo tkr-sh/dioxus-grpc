@@ -46,28 +46,61 @@ pub fn generate_hooks<P: AsRef<Path>, P2: AsRef<Path>, P3: AsRef<Path>>(
             },
         );
 
+
         for service in &fd.service {
+            let tonic_client = format!(
+                "proto::{}_client::{}Client",
+                service.name().to_case(Case::Snake),
+                service.name().to_case(Case::Pascal)
+            );
+
             write!(
                 str,
                 "
-                pub struct {service_name}ServiceHook({tonic_client}<::tonic_web_wasm_client::Client>);
+                pub struct {service_name}ServiceHook{tonic_client_ty};
 
                 pub fn use_{service_name_lowercase}_service() -> {service_name}ServiceHook {{
-                    {service_name}ServiceHook({tonic_client}::new(::tonic_web_wasm_client::Client::new(
-                        {uri:?}.to_string()
-                    )))
+                    {service_name}ServiceHook{new_tonic_client}
                 }}
 
                 impl {service_name}ServiceHook {{
                 ",
-                tonic_client = format!(
-                    "proto::{}_client::{}Client",
-                    service.name().to_case(Case::Snake),
-                    service.name().to_case(Case::Pascal)
-                ),
                 service_name = service.name().to_case(Case::Pascal),
-                service_name_lowercase = service.name().to_case(Case::Snake)
-            ).expect("write error");
+                service_name_lowercase = service.name().to_case(Case::Snake),
+                tonic_client_ty = {
+                    #[cfg(feature = "web")]
+                    {
+                        format!("({tonic_client}<::tonic_web_wasm_client::Client>)")
+                    }
+                    #[cfg(not(feature = "web"))]
+                    {
+                        format!("({tonic_client}<::tonic::transport::Channel>)")
+                    }
+                },
+                new_tonic_client = {
+                    #[cfg(feature = "web")]
+                    {
+                        format!(
+                            "
+                            ({tonic_client}::new(::tonic_web_wasm_client::Client::new(
+                                {uri:?}.to_string()
+                            )))
+                            "
+                        )
+                    }
+                    #[cfg(not(feature = "web"))]
+                    {
+                        format!(
+                            "
+                            ({tonic_client}::new(
+                                ::tonic::transport::Endpoint::new({uri:?}).unwrap().connect_lazy()
+                            ))
+                            "
+                        )
+                    }
+                }
+            )
+            .expect("write error");
 
             for rpc in &service.method {
                 write!(
